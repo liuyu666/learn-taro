@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "learn-taro",
+  "description": "",
+  "appid": "wxaba8e043973184e5",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}
