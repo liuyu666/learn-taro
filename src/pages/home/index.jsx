@@ -1,11 +1,10 @@
+
 import Taro from '@tarojs/taro'
 import { Component } from 'react'
-import { View, Button, Text } from '@tarojs/components'
+import { View, Image, Button } from '@tarojs/components'
 import { observer, inject } from 'mobx-react'
 
-import { ThreadList } from '../../components/thread_list'
-import api from '../../utils/api'
-
+import { Waterfall } from '../../components/waterfall'
 
 import './index.scss'
 
@@ -20,22 +19,15 @@ class Index extends Component {
   state = {
     loading: true,
     threads: [],
+    items: [
+      // 这里是你的项目数组，每个项目都应该有一个 `content` 属性（或其他你需要的属性）
+      { content: '项目 1' },
+      { content: '项目 2' },
+      // ...
+    ]
   }
 
   async componentDidMount () {
-    try {
-      // const res = await Taro.request({
-      //   url: api.getLatestTopic(),
-      // })
-      // this.setState({
-      //   threads: res.data,
-      //   loading: false,
-      // })
-    } catch (error) {
-      // Taro.showToast({
-      //   title: '载入远程数据错误',
-      // })
-    }
   }
 
   componentWillUnmount () { }
@@ -44,76 +36,57 @@ class Index extends Component {
 
   componentDidHide () { }
 
-  increment = () => {
-    const { counterStore } = this.props.store
-    counterStore.increment()
-  }
-
-  decrement = () => {
-    const { counterStore } = this.props.store
-    counterStore.decrement()
-  }
-
-  incrementAsync = () => {
-    const { counterStore } = this.props.store
-    counterStore.incrementAsync()
-  }
-
-  addUser = async () => {
-    try {
-      const {result} = await Taro.cloud.callFunction({
-        name: 'addUser', // 云函数名
-        // 传给云函数的参数
-        data: {
-          name: '张三',
-          age: 30,
-          height: 180,
-          sex: "man"
-        }
-      })
-      console.log(result) // 输出云函数的返回结果
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-
-  handleButtonClick = async () => {
-    try {
-      const { result } = await Taro.cloud.callFunction({
-        name: 'helloWorld', // 云函数名称
-        data: { // 传递给云函数的数据
-          name: 'Taro User',
-          age: 25,
-        },
-      })
-      console.log(11, result) // 输出云函数返回的结果
-      Taro.showToast({ title: result.message, icon: 'success' })
-    } catch (error) {
-      console.error('云函数调用失败', error)
-      Taro.showToast({ title: '云函数调用失败', icon: 'none' })
-    }
-  }
 
   render () {
-    const { loading, threads } = this.state
-    const { counterStore: { counter } } = this.props.store
+    const { items } = this.state
+    // const { counterStore: { counter } } = this.props.store
     return (
-      <View className='index'>
-        {/* <Button onClick={this.increment}>+</Button>
-        <Button onClick={this.decrement}>-</Button>
-        <Button onClick={this.incrementAsync}>Add Async</Button>
-        <Text>{counter}</Text> */}
-        <Button onClick={this.handleButtonClick}>调用函数</Button>
-        <Button onClick={this.addUser}>增加用户</Button>
-
-
-        <View className="index">
-          <ThreadList threads={threads} loading={loading} />
+      <View className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 View-4 bg-slate-200 min-h-screen">
+        <View className="bg-white rounded-lg overflow-hidden shadow-md dark:bg-gray-800 p-1 h-80 m-2">
+          <Image
+            alt="Product 1"
+            className="w-full h-48 object-cover"
+            height={300}
+            src="https://generated.vusercontent.net/placeholder.svg"
+            style={{ aspectRatio: "400/300", objectFit: "cover"}}
+            width={400}
+          />
+          <View className="View-4 p-2">
+            <View className="text-lg font-semibold text-gray-900 dark:text-gray-100 truncate">网红款包包</View>
+            <View className="text-gray-500 dark:text-gray-400 text-sm">这是一款销量很好的包</View>
+            <View className="flex items-center justify-between mt-2">
+              <View className="text-base font-semibold text-gray-900 text-red-600">¥29.99</View>
+              <Button className="m-0 bg-orange-400 text-white">
+                加入购物车
+              </Button>
+            </View>
+          </View>
+        </View>
+        <View className="bg-white rounded-lg overflow-hidden shadow-md dark:bg-gray-800 p-1 h-80 m-2">
+          <Image
+            alt="Product 1"
+            className="w-full h-48 object-cover"
+            height={300}
+            src="https://generated.vusercontent.net/placeholder.svg"
+            style={{ aspectRatio: "400/300", objectFit: "cover"}}
+            width={400}
+          />
+          <View className="View-4 p-2">
+            <View className="text-lg font-semibold text-gray-900 dark:text-gray-100 truncate">网红款包包</View>
+            <View className="text-gray-500 dark:text-gray-400 text-sm">这是一款销量很好的包</View>
+            <View className="flex items-center justify-between mt-2">
+              <View className="text-base font-semibold text-gray-900 text-red-600">¥29.99</View>
+              <Button className="m-0 bg-orange-400 text-white">
+                加入购物车
+              </Button>
+            </View>
+          </View>
         </View>
       </View>
+
     )
   }
 }
 
 export default Index
+
