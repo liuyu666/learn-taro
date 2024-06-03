@@ -1,4 +1,4 @@
-export const getLatestTopic = function (url, data) {
+const getLatestTopic = function (url, data) {
   return new Promise((resolve, reject) => {
     wx.request({
       url: url,
@@ -17,6 +17,29 @@ export const getLatestTopic = function (url, data) {
   });
 }
 
-export default {
+const getProductList = function (url, data) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: url,
+      data: data,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json'
+      },
+      success (res) {
+        resolve(res.data);
+      },
+      fail (err) {
+        reject(err);
+      }
+    })
+  });
+}
+
+export const info =  {
   getLatestTopic,
+}
+
+export const ProductApi = {
+  getProductList
 }

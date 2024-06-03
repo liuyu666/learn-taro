@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import { observer, inject } from 'mobx-react'
 
 import { ThreadList } from '../../components/thread_list'
-import api from '../../utils/api'
+import {info} from '../../utils/api'
 
 
 import './index.scss'

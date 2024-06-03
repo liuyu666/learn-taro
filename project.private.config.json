@@ -5,5 +5,18 @@
     "compileHotReLoad": true,
     "urlCheck": false,
     "bigPackageSizeSupport": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "",
+          "pathName": "pages/home/index",
+          "query": "source=wx&pid=2",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

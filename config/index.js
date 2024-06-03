@@ -9,9 +9,12 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [['@dcasia/mini-program-tailwind-webpack-plugin/dist/taro', {
+  plugins: [
+    ['@dcasia/mini-program-tailwind-webpack-plugin/dist/taro', {
     // ...options
-  }]],
+    }],
+    '@tarojs/plugin-http',
+  ],
   defineConstants: {
   },
   copy: {

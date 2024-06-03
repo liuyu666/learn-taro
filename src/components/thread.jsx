@@ -2,7 +2,7 @@ import Taro, { eventCenter } from '@tarojs/taro'
 import React from 'react'
 import { View, Text, Navigator, Image } from '@tarojs/components'
 
-// import api from '../utils/api'
+import {info} from '../utils/api'
 // import { timeagoInst, Thread_DETAIL_NAVIGATE } from '../utils'
 
 class Thread extends React.Component {
