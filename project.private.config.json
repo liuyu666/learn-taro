@@ -12,6 +12,13 @@
         {
           "name": "",
           "pathName": "pages/home/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/home/index",
           "query": "source=wx&pid=2",
           "launchMode": "default",
           "scene": null
