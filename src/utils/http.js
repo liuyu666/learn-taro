@@ -1,22 +1,35 @@
-// httpUtils.js
 import Taro from '@tarojs/taro'
+// 假设你有一个 baseUrl
+const baseUrl = 'http://liuyu666.cn';
 
-// 封装后的请求函数
-function Request (options) {
-  // 在这里可以添加请求拦截、请求参数处理等逻辑
-  // ...
+// 封装 Taro.request 方法
+export function taroRequest (options = {}) {
+  let { url } = options;
+  // 如果传入的 url 不是完整的 URL（即不包含协议和域名），则添加 baseUrl
+  if (!/^https?:\/\//.test(url)) {
+    url = `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+  }
+  console.log('url77: ', url);
 
-  return Taro.request(options)
-    .then(res => {
-      // 在这里可以添加响应拦截、错误处理等逻辑
-      // ...
-      return res.data // 返回处理后的数据
-    })
-    .catch(err => {
-      // 处理请求失败的情况
-      // ...
-      throw err // 可以选择抛出错误，让调用者处理
-    })
+  // 合并或覆盖默认选项
+  const finalOptions = {
+    ...options,
+    url, // 确保最终使用的 url 是完整的
+    // 可以在这里添加更多默认选项，比如 headers、method 等
+  };
+
+  // 调用 Taro.request 发送请求
+  console.log('finalOptions: ', finalOptions);
+  return Taro.request(finalOptions);
 }
 
-export default Request
+// 使用封装的 taroRequest 方法
+// taroRequest({
+//   url: '/users'
+//   method: 'GET',
+//   // 其他选项...
+// }).then(response => {
+//   // 处理响应数据
+// }).catch(error => {
+//   // 处理错误
+// });
