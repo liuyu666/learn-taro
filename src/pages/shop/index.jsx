@@ -14,6 +14,7 @@ import './index.scss'
 class Index extends Component {
   config = {
     navigationBarTitleText: '店铺',
+    usingComponents: {},
   }
 
   state = {
@@ -21,29 +22,29 @@ class Index extends Component {
     productList: [],
     sid: null,
     source: 'wx',
-    currentProduct: ''
+    currentProduct: {}
   }
 
-  // onShareAppMessage() {
-  //   const { title = '店铺', id, photos } = this.currentProduct || {}
-  //   console.log('title, id, photos========: ', title, id, photos);
-  //   // console.log('this.splitImages(photos)[0]: ', this.splitImages(photos)[0]);
-  //   if (id) {
-  //     return {
-  //       title: `分享店铺：${title}`, // 分享标题
-  //       path: `pages/shop/index?sid=${id}`, // 分享链接，这里为当前页面路径
-  //       imageUrl: this.splitImages(photos)[0],
-  //       success: function (res) {
-  //         // 用户点击分享后执行的回调函数
-  //         console.log('分享成功', res)
-  //       },
-  //       fail: function (err) {
-  //         // 分享失败的回调函数
-  //         console.log('分享失败', err)
-  //       }
-  //     }
-  //   }
-  // }
+  onShareAppMessage() {
+    const { title = '店铺', id, photos } = this.currentProduct || {}
+    console.log('this.currentProduct: ', this);
+    console.log('id, photos: ', id, photos);
+    if (id) {
+      return {
+        title: `分享店铺：${title}`, // 分享标题
+        path: `pages/shop/index?sid=${id}`, // 分享链接，这里为当前页面路径
+        imageUrl: photos,
+        success: function (res) {
+          // 用户点击分享后执行的回调函数
+          console.log('分享成功', res)
+        },
+        fail: function (err) {
+          // 分享失败的回调函数
+          console.log('分享失败', err)
+        }
+      }
+    }
+  }
 
   onLoad (query) {
     const sid = query.sid
@@ -84,19 +85,6 @@ class Index extends Component {
 
   handleShareButtonTap (product) {
     this.currentProduct = product
-    const { title = '店铺', id, photos } = this.currentProduct || {}
-    wx.shareAppMessage({
-      title: title, // 分享标题
-      path: `pages/shop/index?sid=${id}`, // 可选，页面路径，传给目标页面的数据可在onLoad的options参数中接收
-      imageUrl: photos, // 分享图标
-      success: function () {
-        // 用户确认分享后执行的回调函数
-      },
-      fail: function (err) {
-        // 分享失败
-        console.error('Share failed', err);
-      }
-    });
   }
 
   handleClick (product) {
@@ -115,7 +103,7 @@ class Index extends Component {
         {
           productList.map((product, index) => {
             return (
-              <View onClick={()=>this.handleClick(product)} className={`${(product.id == sid && index == 0) ? 'orange-shadow ': ''} bg-white rounded-lg overflow-hidden shadow-md dark:bg-gray-800 p-1 pb-2 h-64 m-2`} >
+              <View catchtap={()=>this.handleClick(product)} className={`${(product.id == sid && index == 0) ? 'orange-shadow ': ''} bg-white rounded-lg overflow-hidden shadow-md dark:bg-gray-800 p-1 pb-2 h-64 m-2`} >
                 <Image
                   alt={product.title}
                   className="w-full h-48 object-cover"
@@ -131,7 +119,7 @@ class Index extends Component {
                       className="m-0 bg-orange-400 text-white"
                       open-type="share"
                       data-sid={product.id} // 在这里绑定店铺的 ID
-                      catchtap={() => this.handleShareButtonTap(product)} // 处理按钮的点击事件
+                      onClick={() => this.handleShareButtonTap(product)} // 处理按钮的点击事件
                     >
                       分享
                     </Button>

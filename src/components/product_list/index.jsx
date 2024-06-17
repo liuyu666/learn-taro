@@ -17,6 +17,7 @@ class ProductList extends Component {
 
   onShareAppMessage() {
     const { title = '商品', id, images } = this.currentProduct || {}
+    console.log('id???: ', id);
     if (id) {
       return {
         title: `分享商品：${title}`, // 分享标题
@@ -65,7 +66,7 @@ class ProductList extends Component {
                     <View className="text-base font-semibold text-gray-900 text-red-600">¥{product.price}</View>
                     <Button
                       className="m-0 bg-orange-400 text-white"
-                      open-type="share"
+                      open-type='share'
                       data-pid={product.id} // 在这里绑定产品的 ID
                       onTap={() => this.handleShareButtonTap(product)} // 处理按钮的点击事件
                     >

@@ -1,4 +1,5 @@
 export default definePageConfig({
   navigationBarTitleText: '店铺',
-  usingComponents: {}
+  usingComponents: {},
+  enableShareAppMessage: true
 })
