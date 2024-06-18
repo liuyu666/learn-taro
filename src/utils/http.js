@@ -9,7 +9,6 @@ export function taroRequest (options = {}) {
   if (!/^https?:\/\//.test(url)) {
     url = `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
   }
-  console.log('url77: ', url);
 
   // 合并或覆盖默认选项
   const finalOptions = {

@@ -19,16 +19,14 @@ class Index extends Component {
 
   state = {
     loading: true,
-    productList: [],
+    shopList: [],
     sid: null,
     source: 'wx',
-    currentProduct: {}
+    currentShop: {}
   }
 
   onShareAppMessage() {
-    const { title = '店铺', id, photos } = this.currentProduct || {}
-    console.log('this.currentProduct: ', this);
-    console.log('id, photos: ', id, photos);
+    const { title = '店铺', id, photos } = this.currentShop || {}
     if (id) {
       return {
         title: `分享店铺：${title}`, // 分享标题
@@ -49,17 +47,16 @@ class Index extends Component {
   onLoad (query) {
     const sid = query.sid
     const source = query.source
-
     // 你也可以将这些值保存到组件的 state 或 data 中，以便在页面中使用
     this.setState({
       sid,
       source
     }, () => {
-      this.fetchProductList()
+      this.fetchShopList()
     })
   }
 
-  async fetchProductList () {
+  async fetchShopList () {
     const { sid } = this.state;
     try {
       const { data = {} } = await taroRequest({
@@ -70,7 +67,7 @@ class Index extends Component {
         }
       })
       this.setState({
-        productList: data.data.list || {}
+        shopList: data.data.list || {}
       })
     } catch (error) {
       Taro.showToast({
@@ -83,43 +80,46 @@ class Index extends Component {
     return images.split(';')
   }
 
-  handleShareButtonTap (product) {
-    this.currentProduct = product
+  handleShareButtonTap (e, shop) {
+    e.stopPropagation()
+    this.currentShop = shop
+    console.log('this.currentShop: ', this.currentShop);
   }
 
-  handleClick (product) {
-    const { id } = product
+  handleClickShop (shop) {
+    console.log('shop88: ', shop);
+    const { id } = shop
     Taro.navigateTo({
       url: `/pages/shop_detail/index?sid=${id}`
     })
   }
 
   render () {
-    const { productList, sid } = this.state
+    const { shopList, sid } = this.state
     // const { counterStore: { counter } } = this.props.store
     return (
       <View className="min-h-screen bg-slate-200">
         <View className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 View-">
         {
-          productList.map((product, index) => {
+          shopList.map((shop, index) => {
             return (
-              <View catchtap={()=>this.handleClick(product)} className={`${(product.id == sid && index == 0) ? 'orange-shadow ': ''} bg-white rounded-lg overflow-hidden shadow-md dark:bg-gray-800 p-1 pb-2 h-64 m-2`} >
+              <View onClick={()=>this.handleClickShop(shop)} className={`${(shop.id == sid && index == 0) ? 'orange-shadow ': ''} bg-white rounded-lg overflow-hidden shadow-md dark:bg-gray-800 p-1 pb-2 h-64 m-2`} >
                 <Image
-                  alt={product.title}
+                  alt={shop.title}
                   className="w-full h-48 object-cover"
                   height={300}
-                  src={this.splitImages(product.photos)[0] || 'https://generated.vusercontent.net/placeholder.svg'}
+                  src={this.splitImages(shop.photos)[0] || 'https://generated.vusercontent.net/placeholder.svg'}
                   style={{ aspectRatio: "400/300", objectFit: "cover" }}
                   width={400}
                 />
                 <View className="View-4 p-2 flex justify-between items-center">
-                  <View className="text-lg font-semibold text-gray-900 truncate">{product.title}</View>
+                  <View className="text-lg font-semibold text-gray-900 truncate">{shop.title}</View>
                   <View className="flex items-center justify-between mt-2">
                     <Button
                       className="m-0 bg-orange-400 text-white"
                       open-type="share"
-                      data-sid={product.id} // 在这里绑定店铺的 ID
-                      onClick={() => this.handleShareButtonTap(product)} // 处理按钮的点击事件
+                      data-sid={shop.id} // 在这里绑定店铺的 ID
+                      onClick={(e) => this.handleShareButtonTap(e, shop)} // 处理按钮的点击事件
                     >
                       分享
                     </Button>

@@ -9,7 +9,7 @@ import { taroRequest } from '../../utils/http'
 
 import './index.scss'
 
-
+let shareConfig = {}
 @inject('store')
 @observer
 class ShopDetail extends Component {
@@ -39,6 +39,23 @@ class ShopDetail extends Component {
     })
   }
 
+  async onShareAppMessage() {
+    console.log('shareConfig: ', shareConfig);
+    if (shareConfig && shareConfig.path) {
+      return {
+        ...shareConfig,
+        success: function (res) {
+          // 用户点击分享后执行的回调函数
+          console.log('分享成功', res)
+        },
+        fail: function (err) {
+          // 分享失败的回调函数
+          console.log('分享失败', err)
+        }
+      }
+    }
+  }
+
   async fetchProductList () {
     const { pid, sid } = this.state;
     console.log('pid, sid!!!: ',  pid, sid);
@@ -63,12 +80,20 @@ class ShopDetail extends Component {
     }
   }
 
+  shareProduct ({ title = '商品', id, image }) {
+    shareConfig = {
+      title: `分享商品：${title}`, // 分享标题
+      path: `pages/home/index?pid=${id}`, // 分享链接，这里为当前页面路径
+      imageUrl: image,
+    };
+  }
+
   render () {
     const { productList = [], pid } = this.state || {}
     return (
       <View className="min-h-screen bg-slate-200">
-        <View className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 View-4 bg-slate-200 min-h-screen">
-          <ProductList data={productList} pid={pid} />
+        <View className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 View-4 bg-slate-200">
+          <ProductList data={productList} pid={pid} shareProduct={this.shareProduct} />
         </View>
       </View>
 

@@ -12,42 +12,22 @@ import './index.scss'
 class ProductList extends Component {
   state = {
     loading: true,
-    currentProduct: ''
   }
 
-  onShareAppMessage() {
-    const { title = '商品', id, images } = this.currentProduct || {}
-    console.log('id???: ', id);
-    if (id) {
-      return {
-        title: `分享商品：${title}`, // 分享标题
-        path: `pages/home/index?pid=${id}`, // 分享链接，这里为当前页面路径
-        imageUrl: this.splitImages(images)[0],
-        success: function (res) {
-          // 用户点击分享后执行的回调函数
-          console.log('分享成功', res)
-        },
-        fail: function (err) {
-          // 分享失败的回调函数
-          console.log('分享失败', err)
-        }
-      }
-    }
-  }
-
-  splitImages (images) {
+  splitImages (images='') {
     return images.split(';')
   }
 
   handleShareButtonTap (product) {
-    this.currentProduct = product
+    product.image = this.splitImages(product.images)[0]
+    this.props.shareProduct(product)
   }
 
   render () {
     const { data: productList = [], pid } = this.props
     // const { counterStore: { counter } } = this.props.store
     return (
-      <View className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 View-4 bg-slate-200 min-h-screen">
+      <View className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 View-4 bg-slate-200">
         {
           productList.map((product, index) => {
             return (
