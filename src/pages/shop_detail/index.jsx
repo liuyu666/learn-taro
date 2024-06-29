@@ -83,7 +83,7 @@ class ShopDetail extends Component {
   shareProduct ({ title = '商品', id, image }) {
     shareConfig = {
       title: `分享商品：${title}`, // 分享标题
-      path: `pages/home/index?pid=${id}`, // 分享链接，这里为当前页面路径
+      path: `pages/shop_detail/index?pid=${id}`, // 分享链接，这里为当前页面路径
       imageUrl: image,
     };
   }
